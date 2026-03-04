@@ -14,3 +14,15 @@ authors = [
 readme = "../README.md"
 
 [dependencies]
+# Async Runtime
+tokio = { version = "1.49.0", features = ["full"] }
+# Web Framework
+axum = "0.8.8"
+# Tracing and Logging
+tracing = "0.1.44"
+tracing-subscriber = "0.3.22"
+# JSON/TOML/YAML Serialization/Deserialization
+serde = { version = "1.0.228", features = ["derive"] }
+# Configuration Management
+# Renamed to avoid conflict with the `config` crate used in the codebase.
+config-lib = { package = "config", version = "0.15.19", features = ["toml"] }
