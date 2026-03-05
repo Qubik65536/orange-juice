@@ -1,0 +1,82 @@
+name: Auto-Create Project & Epic Labels
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  create-project-label:
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'project') || contains(github.event.issue.labels.*.name, 'epic')
+
+    steps:
+      - name: Extract Project ID and Create Label
+        if: contains(github.event.issue.labels.*.name, 'project')
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue = context.payload.issue;
+            const issueId = issue.number;
+            const labelName = `project-${issueId}`;
+            const labelColor = '0366d6'; // Blue color for issue labels
+            const labelDescription = `Label for issue (project) #${issueId}`;
+
+            try {
+              // Check if label already exists
+              await github.rest.issues.getLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: labelName
+              });
+              console.log(`Label ${labelName} already exists`);
+            } catch (error) {
+              if (error.status === 404) {
+                // Label doesn't exist, create it
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: labelName,
+                  color: labelColor,
+                  description: labelDescription
+                });
+                console.log(`Created new label: ${labelName}`);
+              } else {
+                throw error;
+              }
+            }
+      - name: Extract Epic ID and Create Label
+        if : contains(github.event.issue.labels.*.name, 'epic')
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue = context.payload.issue;
+            const issueId = issue.number;
+            const labelName = `epic-${issueId}`;
+            const labelColor = 'd73a4a'; // Red color for epic labels
+            const labelDescription = `Label for issue (epic) #${issueId}`;
+
+            try {
+              // Check if label already exists
+              await github.rest.issues.getLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: labelName
+              });
+              console.log(`Label ${labelName} already exists`);
+            } catch (error) {
+              if (error.status === 404) {
+                // Label doesn't exist, create it
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: labelName,
+                  color: labelColor,
+                  description: labelDescription
+                });
+                console.log(`Created new label: ${labelName}`);
+              } else {
+                throw error;
+              }
+            }

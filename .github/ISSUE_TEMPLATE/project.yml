@@ -1,0 +1,82 @@
+name: Project
+description: A high-level project that encompasses multiple epics and stories.
+title: "[PROJECT] "
+labels: ["project"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Project Template
+        Use this template for high-level projects that will span multiple months and contain multiple epics.
+        
+  - type: input
+    id: project-name
+    attributes:
+      label: Project Name
+      description: A short, descriptive name for this project.
+      placeholder: e.g., "OJ System Backend Development"
+    validations:
+      required: true
+      
+  - type: textarea
+    id: project-description
+    attributes:
+      label: Project Description
+      description: Detailed description of what this project aims to achieve.
+      placeholder: Describe the overall goals, scope, and deliverables of this project.
+    validations:
+      required: true
+      
+  - type: textarea
+    id: success-criteria
+    attributes:
+      label: Success Criteria
+      description: How will we know when this project is complete?
+      placeholder: List the specific, measurable outcomes that define project success.
+      value: |
+        The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”,
+        “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL”
+        are to be interpreted as described in [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119).
+        
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] Criterion 3
+    validations:
+      required: true
+      
+  - type: input
+    id: timeline
+    attributes:
+      label: Estimated Timeline
+      description: When do you expect this project to be completed?
+      placeholder: e.g., "3-6 months" or "End of Q2 2025"
+    validations:
+      required: true
+      
+  - type: textarea
+    id: stakeholders
+    attributes:
+      label: Key Stakeholders
+      description: Who are the main people involved or affected by this project?
+      placeholder: List (and link to or mention if possible) key stakeholders.
+    validations:
+      required: false
+      
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: What other projects, systems, or resources does this depend on?
+      placeholder: List any blocking dependencies or requirements.
+    validations:
+      required: false
+      
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks and Mitigation
+      description: What could go wrong and how can we address it?
+      placeholder: Identify potential risks and mitigation strategies.
+    validations:
+      required: false

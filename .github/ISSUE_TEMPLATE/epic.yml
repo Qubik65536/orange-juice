@@ -1,0 +1,81 @@
+name: Epic
+description: A goal or feature that takes 1-2 months to complete.
+title: "[EPIC] "
+labels: ["epic"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Epic Template
+        Use this template for goals or features that take 1-2 months to complete and contain multiple stories.
+
+  - type: input
+    id: epic-name
+    attributes:
+      label: Epic Title
+      description: A concise title for this epic.
+      placeholder: e.g., "Build Problem Setting Tools"
+    validations:
+      required: true
+
+  - type: input
+    id: related-project
+    attributes:
+      label: Related Project
+      description: Which project does this epic belong to?
+      placeholder: e.g., "#1234"
+    validations:
+      required: false
+  
+  - type: textarea
+    id: epic-description
+    attributes:
+      label: Description
+      description: Detailed description of what this epic aims to achieve.
+      placeholder: Describe the goal, why it's important, and what the end result should look like.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: What specific criteria must be met for this epic to be considered complete?
+      value: |
+        The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”,
+        “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL”
+        are to be interpreted as described in [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119).
+
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] Criterion 3
+    validations:
+      required: true
+
+  - type: input
+    id: timeline
+    attributes:
+      label: Estimated Timeline
+      description: How long do you expect this epic to take?
+      placeholder: e.g., "6-8 weeks" or "2 months"
+    validations:
+      required: false
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: What other epics, stories, or external factors does this depend on?
+      placeholder: List any blocking dependencies.
+    validations:
+      required: false
+
+  - type: textarea
+    id: technical-notes
+    attributes:
+      label: Technical Notes
+      description: Any technical considerations, architecture decisions, or implementation notes.
+      placeholder: Include relevant technical details, constraints, or approaches.
+    validations:
+      required: false

@@ -1,0 +1,159 @@
+name: Bug Report
+description: A report to help identify and fix bugs in the project.
+title: "[BUG] "
+labels: ["bug"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug Report Template
+        Use this template to report bugs and issues you've encountered.
+
+  - type: input
+    id: bug-title
+    attributes:
+      label: Bug Title
+      description: A clear and concise title for this bug.
+      placeholder: e.g., "The server crashes when the message has a wrong format."
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Describe the Bug
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe what happened and what went wrong.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. See error.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: What actually happened.
+      placeholder: Describe what actually occurred.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what you expected to happen.
+      placeholder: Describe what should have happened instead.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: operating-system
+    attributes:
+      label: Operating System
+      description: What operating system are you using?
+      options:
+        - "Windows 10"
+        - "Windows 11"
+        - "macOS (Intel)"
+        - "macOS (Apple Silicon)"
+        - "Ubuntu/Debian and derivatives"
+        - "Fedora/RedHat and derivatives"
+        - "Arch Linux and derivatives"
+        - "Other Linux"
+        - "Other"
+    validations:
+      required: true
+
+  - type: input
+    id: os-version
+    attributes:
+      label: OS Version
+      description: Specific version of your operating system.
+      placeholder: e.g., "macOS 14.1", "Windows 11 22H2", "Ubuntu 22.04", "Fedora 42"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: cpu-architecture
+    attributes:
+      label: CPU Architecture
+      description: What CPU architecture are you using?
+      options:
+        - "x86_64 (Intel/AMD 64-bit)"
+        - "ARM64 (Apple Silicon, ARM 64-bit)"
+        - "x86 (32-bit)"
+        - "Other"
+    validations:
+      required: true
+
+  - type: input
+    id: software-version
+    attributes:
+      label: Software Version
+      description: Version of the software where the bug occurred.
+      placeholder: e.g., "v1.0.5", "commit `abcd123` on branch `main`"
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-logs
+    attributes:
+      label: Error Logs/Output
+      description: If applicable, include relevant error messages, logs, or console output.
+      placeholder: Paste error messages or logs here.
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem.
+      placeholder: Drag and drop images here or paste them.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Bug Severity
+      description: How severe is this bug?
+      options:
+        - "Low - Minor inconvenience"
+        - "Medium - Affects functionality but workaround exists"
+        - "High - Major functionality broken"
+        - "Critical - System unusable or data loss"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here.
+      placeholder: Any additional information that might be helpful.
+    validations:
+      required: false
+
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Workaround
+      description: If you've found a temporary workaround, please describe it.
+      placeholder: Describe any workaround you've discovered.
+    validations:
+      required: false

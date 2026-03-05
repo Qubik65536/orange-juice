@@ -1,0 +1,113 @@
+name: Story
+description: An individual feature that takes 1-2 weeks to complete.
+title: "[STORY] "
+labels: ["story"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Story Template
+        Use this template for individual features that take 1-2 weeks to complete.
+
+  - type: input
+    id: story-name
+    attributes:
+      label: Story Title
+      description: A concise title for this story.
+      placeholder: e.g., "Implement Markdown & LaTeX support for Problem Editor"
+    validations:
+      required: true
+
+  - type: input
+    id: related-epic
+    attributes:
+      label: Related Epic
+      description: Which epic does this story belong to?
+      placeholder: e.g., "#1234"
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-story
+    attributes:
+      label: User Story
+      description: Describe this story from a user's perspective.
+      placeholder: |
+        As a [type of user], I want [some goal] so that [some reason].
+
+        Example: As a problem setter, I want to write problem statements using Markdown and LaTeX so that I can easily format complex mathematical expressions and create well-structured problem descriptions.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: What specific criteria must be met for this story to be considered done?
+      value: |
+        The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”,
+        “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL”
+        are to be interpreted as described in [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119).
+
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] Criterion 3
+        - [ ] Testing Requirements
+        - [ ] Documentation Requirements
+    validations:
+      required: true
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: Breaking Down into Tasks
+      description: What specific tasks need to be completed for this story?
+      value: |
+        List the individual tasks that make up this story, also link the issues if they exist.
+        
+        - [ ] Task 1
+        - [ ] Task 2
+        - [ ] Task 3
+    validations:
+      required: true
+
+  - type: input
+    id: estimate
+    attributes:
+      label: Estimated Effort
+      description: Use Fibonacci numbers to estimate the effort required for this story.
+      placeholder: e.g., "1", "2", "3", "5", "8", "13"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this story?
+      options:
+        - "Low"
+        - "Medium"
+        - "High"
+        - "Critical"
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: What other stories, tasks, or external factors does this depend on?
+      placeholder: List any blocking dependencies.
+    validations:
+      required: false
+
+  - type: textarea
+    id: technical-notes
+    attributes:
+      label: Technical Implementation Notes
+      description: Any technical details, approaches, or considerations for implementation.
+      placeholder: Include relevant technical details, file locations, API changes, etc.
+    validations:
+      required: false
