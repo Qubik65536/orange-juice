@@ -30,6 +30,10 @@ export default defineNuxtConfig({
 
   compatibilityDate: "2025-01-15",
 
+  i18n: {
+    defaultLocale: "en",
+  },
+
   eslint: {
     config: {
       stylistic: {

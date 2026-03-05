@@ -17,10 +17,11 @@ export default defineConfig({
           name: 'nuxt',
           include: ['tests/nuxt/*.{test,spec}.ts'],
           environment: 'nuxt',
+          setupFiles: ['tests/setup.ts'],
           environmentOptions: {
             nuxt: {
               rootDir: fileURLToPath(new URL('.', import.meta.url)),
-              domEnvironment: 'happy-dom',
+              domEnvironment: 'jsdom',
             },
           },
         },
