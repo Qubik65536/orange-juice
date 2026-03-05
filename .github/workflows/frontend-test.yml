@@ -1,10 +1,14 @@
-name: Frontend CI
+name: Frontend Test
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+
+defaults:
+  run:
+    working-directory: ./frontend/
 
 jobs:
   ci:
