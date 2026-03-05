@@ -66,11 +66,24 @@ tests/
 |   # Vitest-powered unit tests
 ├── unit/
 |   # Nuxt-specific tests using @nuxt/test-utils,
-|   # integration test (for testing Nuxt components, routes, etc.)
+|   # containing Nuxt-related unit tests and integration test
+|   # (for testing Nuxt components, routes, etc.)
 ├── nuxt/
 |   # Playwright-powered end-to-end tests
 └── e2e/
 ```
+
+The designated use of each test type is as follows:
+
+- **Unit tests**: For testing individual functions, mostly logical ones that are not tightly coupled with Nuxt. These tests SHOULD be fast and cover a wide range of cases, including edge cases, and SHOULD NOT require any Nuxt-specific setup. They are ideal for testing utility functions, data processing logic, and other pure functions. These tests MUST NOT rely on the actual backend server and SHOULD use mocked API responses instead.
+- **Nuxt tests**: For testing Nuxt components, routes, and other features that require a Nuxt environment. These tests MAY involve some integration testing but SHOULD NOT be as slow as end-to-end tests. They are ideal for testing the rendering of components, navigation between pages, and interactions that involve Nuxt features. These tests MUST NOT rely on the actual backend server and SHOULD use mocked API responses instead.
+- **End-to-end tests**: For testing the entire application flow, including interactions with the backend server. These tests SHOULD be used sparingly and only for critical user flows that cannot be adequately tested with unit or Nuxt tests. They are ideal for testing key functionalities that involve user interaction (which can be simulated via Playwright), multiple components, and backend interactions. These tests MAY rely on the actual backend server, but it is RECOMMENDED to use mocked API responses to keep the tests fast and reliable.
+
+>[!IMPORTANT]
+> Note that the end-to-end tests (under `tests/e2e`) is configured to have a backend server compiled from the Rust code in the `backend` directory and ran before the tests are executed. Therefore, you do have the option to test against the actual backend server instead of a mocked one. **However**, you SHOULD NOT do that unless it is necessary, as it will significantly increase the time it takes to run the tests.
+
+>[!NOTE]
+> Note that the e2e tests are NOT tested in CI.
 
 Run all tests:
 
