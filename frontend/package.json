@@ -1,6 +1,23 @@
 {
   "name": "orange-juice-frontend",
   "private": true,
+  "description": "An OJ (Online Judge) System for CRC Robotics Programming Competition",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Qubik65536/orange-juice"
+  },
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "CRC Robotics",
+      "email": "https://robo-crc.ca/"
+    },
+    {
+      "name": "Qian Qian \"Qubik65536\"",
+      "email": "qubik65536@qubik65536.top"
+    }
+  ],
   "type": "module",
   "scripts": {
     "build": "nuxt build",
