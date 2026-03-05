@@ -1,35 +1,41 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || "http://localhost:8000",
+    },
+  },
+
   modules: [
-    '@nuxt/eslint',
-    '@nuxt/ui',
-    '@nuxt/a11y',
-    '@nuxt/content',
-    '@nuxt/hints',
-    '@nuxt/image',
-    '@nuxt/scripts',
-    '@nuxt/test-utils',
-    '@nuxtjs/i18n'
+    "@nuxt/eslint",
+    "@nuxt/ui",
+    "@nuxt/a11y",
+    "@nuxt/content",
+    "@nuxt/hints",
+    "@nuxt/image",
+    "@nuxt/scripts",
+    "@nuxt/test-utils",
+    "@nuxtjs/i18n",
   ],
 
   devtools: {
-    enabled: true
+    enabled: true,
   },
 
-  css: ['~/assets/css/main.css'],
+  css: ["~/assets/css/main.css"],
 
   routeRules: {
-    '/': { prerender: true }
+    "/": { prerender: true },
   },
 
-  compatibilityDate: '2025-01-15',
+  compatibilityDate: "2025-01-15",
 
   eslint: {
     config: {
       stylistic: {
-        commaDangle: 'never',
-        braceStyle: '1tbs'
-      }
-    }
-  }
-})
+        commaDangle: "never",
+        braceStyle: "1tbs",
+      },
+    },
+  },
+});

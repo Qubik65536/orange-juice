@@ -16,6 +16,8 @@ readme = "../README.md"
 [dependencies]
 # Async Runtime
 tokio = { version = "1.49.0", features = ["full"] }
+# HTTP Middleware
+tower-http = { version = "0.6", features = ["cors"] }
 # Web Framework
 axum = "0.8.8"
 # Tracing and Logging
