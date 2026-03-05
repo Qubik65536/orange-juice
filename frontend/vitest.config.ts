@@ -9,8 +9,8 @@ export default defineConfig({
         test: {
           name: 'unit',
           include: ['tests/unit/*.{test,spec}.ts'],
-          environment: 'node',
-        },
+          environment: 'node'
+        }
       },
       await defineVitestProject({
         test: {
@@ -21,15 +21,15 @@ export default defineConfig({
           environmentOptions: {
             nuxt: {
               rootDir: fileURLToPath(new URL('.', import.meta.url)),
-              domEnvironment: 'jsdom',
-            },
-          },
-        },
-      }),
+              domEnvironment: 'jsdom'
+            }
+          }
+        }
+      })
     ],
     coverage: {
       enabled: true,
-      provider: 'v8',
-    },
-  },
+      provider: 'v8'
+    }
+  }
 })

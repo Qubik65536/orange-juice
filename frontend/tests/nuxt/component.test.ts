@@ -7,11 +7,11 @@ describe('component test example', () => {
     const TestComponent = defineComponent({
       setup() {
         return () => h('div', 'Hello Nuxt!')
-      },
+      }
     })
-    
+
     const component = await mountSuspended(TestComponent)
-    
+
     expect(component.text()).toBe('Hello Nuxt!')
   })
 })
