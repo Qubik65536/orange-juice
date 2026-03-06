@@ -1,0 +1,16 @@
+[package]
+name = "benchy"
+description = "The submission timer & checker of the OJ System for CRC Robotics Programming Competition"
+version = "0.1.0"
+edition = "2024"
+
+repository = "https://github.com/Qubik65536/orange-juice"
+license = "MIT"
+authors = [
+    "CRC Robotics <https://robo-crc.ca/>",
+    "Qian Qian \"Qubik65536\" <qubik65536@qubik65536.top>",
+]
+
+readme = "README.md"
+
+[dependencies]
