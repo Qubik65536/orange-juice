@@ -90,7 +90,7 @@ fn main() {
     let mut child = match std::process::Command::new(&program_path)
         .args(args.program_args.split_whitespace())
         .stdin(std::process::Stdio::piped())
-        // .stdout(std::process::Stdio::piped())
+        .stdout(std::process::Stdio::piped())
         .stderr(std::process::Stdio::piped())
         .spawn()
     {
