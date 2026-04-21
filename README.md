@@ -18,8 +18,11 @@ The project is organized as a monorepo with the following structure:
 
 ```
 crc-oj/
-├── backend/        # Rust backend server
-├── frontend/       # Nuxt frontend application
+├── backend/          # Rust-powered Backend API Server
+├── frontend/         # Nuxt-powered Frontend Application
+├── infra/            # Infrastructure and Tooling
+│   ├── benchy/       # Submission Timer & Checker
+│   └── simple-asm/   # Simple Assembly Language Interpreter (for benchy testing)
 ├── ... more to come
 ```
 
