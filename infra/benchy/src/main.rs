@@ -1,5 +1,7 @@
 use clap::Parser;
+use std::io::Read;
 use std::os::unix::fs::PermissionsExt;
+use wait_timeout::ChildExt;
 
 // =================================================================================================
 // Exit code constants — using an enum-like module for clarity.
@@ -104,17 +106,20 @@ fn main() {
     // ---------------------------------------------------------------------------------------------
     // Step 04: Feed the input file to the child process.
     // ---------------------------------------------------------------------------------------------
+    // The write runs on a background thread so a program that fills its output pipe before
+    // consuming all of its input cannot deadlock the judge. Dropping the handle when the
+    // thread finishes closes the program's stdin (EOF). A write error here is not fatal:
+    // a program that exits without reading its input closes the pipe, which is its right.
+    let input_data = std::fs::read(&args.input_file).unwrap_or_else(|e| {
+        eprintln!(
+            "Error: Failed to read input file '{}': {}",
+            args.input_file, e
+        );
+        std::process::exit(exit_codes::JUDGE_ERROR);
+    });
     if let Some(mut stdin) = child.stdin.take() {
-        let input_data = std::fs::read(&args.input_file).unwrap_or_else(|e| {
-            eprintln!(
-                "Error: Failed to read input file '{}': {}",
-                args.input_file, e
-            );
-            std::process::exit(exit_codes::JUDGE_ERROR);
-        });
-        std::io::copy(&mut &input_data[..], &mut stdin).unwrap_or_else(|e| {
-            eprintln!("Error: Failed to write to program's stdin: {}", e);
-            std::process::exit(exit_codes::JUDGE_ERROR);
+        std::thread::spawn(move || {
+            let _ = std::io::copy(&mut &input_data[..], &mut stdin);
         });
     } else {
         eprintln!("Error: Failed to capture program's stdin.");
@@ -122,16 +127,98 @@ fn main() {
     }
 
     // ---------------------------------------------------------------------------------------------
-    // Step 05: Record the start time for timer and wait for the child process to finish.
+    // Step 05: Drain the program's stdout/stderr on background threads.
     // ---------------------------------------------------------------------------------------------
-    let start_time = std::time::Instant::now();
-
-    // ---------------------------------------------------------------------------------------------
-    // Step 06: Wait for the child process to finish with a timeout.
-    // ---------------------------------------------------------------------------------------------
-    let timeout_duration = std::time::Duration::from_secs(args.timeout);
-    let result = child.wait_timeout(timeout_duration).unwrap_or_else(|e| {
-        eprintln!("Error: Failed to wait for program '{}': {}", program_path, e);
+    // Reading on separate threads keeps the pipe buffers from filling up: a program that writes
+    // more output than the OS pipe buffer holds would otherwise block forever and be judged TLE.
+    let mut stdout_pipe = child.stdout.take().unwrap_or_else(|| {
+        eprintln!("Error: Failed to capture program's stdout.");
         std::process::exit(exit_codes::JUDGE_ERROR);
     });
+    let stdout_thread = std::thread::spawn(move || {
+        let mut buf = Vec::new();
+        let _ = stdout_pipe.read_to_end(&mut buf);
+        buf
+    });
+    let mut stderr_pipe = child.stderr.take().unwrap_or_else(|| {
+        eprintln!("Error: Failed to capture program's stderr.");
+        std::process::exit(exit_codes::JUDGE_ERROR);
+    });
+    let stderr_thread = std::thread::spawn(move || {
+        let mut buf = Vec::new();
+        let _ = stderr_pipe.read_to_end(&mut buf);
+        buf
+    });
+
+    // ---------------------------------------------------------------------------------------------
+    // Step 06: Record the start time for timer and wait for the child process to finish,
+    //          killing it if it exceeds the time limit.
+    // ---------------------------------------------------------------------------------------------
+    let start_time = std::time::Instant::now();
+    let timeout_duration = std::time::Duration::from_secs(args.timeout);
+    let status = match child.wait_timeout(timeout_duration) {
+        Ok(Some(status)) => status,
+        Ok(None) => {
+            // Still running past the deadline: kill it and report TLE.
+            let _ = child.kill();
+            let _ = child.wait();
+            eprintln!("Time Limit Exceeded: program ran longer than {}s.", args.timeout);
+            std::process::exit(exit_codes::TIME_LIMIT_EXCEEDED);
+        }
+        Err(e) => {
+            eprintln!("Error: Failed to wait for program '{}': {}", program_path, e);
+            std::process::exit(exit_codes::JUDGE_ERROR);
+        }
+    };
+    let elapsed = start_time.elapsed();
+    eprintln!("Time: {} ms", elapsed.as_millis());
+
+    // ---------------------------------------------------------------------------------------------
+    // Step 07: Check how the program terminated. A non-zero exit code or a signal
+    //          (e.g. SIGSEGV) is a Runtime Error.
+    // ---------------------------------------------------------------------------------------------
+    let program_stdout = stdout_thread.join().unwrap_or_default();
+    let program_stderr = stderr_thread.join().unwrap_or_default();
+    if !status.success() {
+        match status.code() {
+            Some(code) => eprintln!("Runtime Error: program exited with code {}.", code),
+            None => eprintln!("Runtime Error: program was terminated by a signal."),
+        }
+        if !program_stderr.is_empty() {
+            eprintln!("Program stderr:\n{}", String::from_utf8_lossy(&program_stderr));
+        }
+        std::process::exit(exit_codes::RUNTIME_ERROR);
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // Step 08: Compare the program's output with the expected output.
+    // ---------------------------------------------------------------------------------------------
+    let expected = std::fs::read(&args.output_file).unwrap_or_else(|e| {
+        eprintln!(
+            "Error: Failed to read output file '{}': {}",
+            args.output_file, e
+        );
+        std::process::exit(exit_codes::JUDGE_ERROR);
+    });
+    if normalize_output(&program_stdout) == normalize_output(&expected) {
+        std::process::exit(exit_codes::ACCEPTED);
+    } else {
+        eprintln!("Wrong Answer: output does not match expected output.");
+        std::process::exit(exit_codes::WRONG_ANSWER);
+    }
+}
+
+// =================================================================================================
+// Output comparison
+// =================================================================================================
+
+/// Normalizes program output for comparison: trailing whitespace on each line is ignored,
+/// as are trailing blank lines, so a missing or extra final newline does not affect the verdict.
+fn normalize_output(bytes: &[u8]) -> Vec<String> {
+    let text = String::from_utf8_lossy(bytes);
+    let mut lines: Vec<String> = text.lines().map(|l| l.trim_end().to_string()).collect();
+    while lines.last().is_some_and(|l| l.is_empty()) {
+        lines.pop();
+    }
+    lines
 }

@@ -10,8 +10,8 @@ fn main() {
     std::io::BufRead::read_line(&mut stdin_lock, &mut input).expect("Failed to read line");
 
     // 3. Print the read string to stdout.
+    // `input` still contains the trailing newline from read_line, so print! is enough.
     print!("{}", input);
-    println!();
     std::io::Write::flush(&mut std::io::stdout()).unwrap();
 
     // 4. Read an int from stdin.
