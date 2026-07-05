@@ -120,4 +120,18 @@ fn main() {
         eprintln!("Error: Failed to capture program's stdin.");
         std::process::exit(exit_codes::JUDGE_ERROR);
     }
+
+    // ---------------------------------------------------------------------------------------------
+    // Step 05: Record the start time for timer and wait for the child process to finish.
+    // ---------------------------------------------------------------------------------------------
+    let start_time = std::time::Instant::now();
+
+    // ---------------------------------------------------------------------------------------------
+    // Step 06: Wait for the child process to finish with a timeout.
+    // ---------------------------------------------------------------------------------------------
+    let timeout_duration = std::time::Duration::from_secs(args.timeout);
+    let result = child.wait_timeout(timeout_duration).unwrap_or_else(|e| {
+        eprintln!("Error: Failed to wait for program '{}': {}", program_path, e);
+        std::process::exit(exit_codes::JUDGE_ERROR);
+    });
 }
