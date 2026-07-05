@@ -1,0 +1,3 @@
+; Terminates immediately with exit code 1, producing no output.
+
+EXIT 1

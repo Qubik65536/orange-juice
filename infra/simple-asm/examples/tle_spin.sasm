@@ -1,0 +1,4 @@
+; Loops forever: never reads, never writes, never terminates.
+
+loop:
+    JMP loop        ; unconditional self-jump

@@ -1,0 +1,5 @@
+; Reads a single integer N from stdin and prints N + 1 followed by a newline.
+
+READ r0             ; r0 <- next integer token from stdin
+ADD r0, 1           ; r0 <- r0 + 1
+PRINTLN r0          ; write r0 and '\n' to stdout, then exit 0 (end of program)

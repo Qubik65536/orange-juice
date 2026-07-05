@@ -1,0 +1,14 @@
+; Reads a count N, then N integers, and prints their sum followed by a newline.
+
+READ r0             ; r0 <- N, the number of values to read
+MOV r1, 0           ; r1 <- running sum, starts at 0
+
+loop:
+    JEQ r0, 0, done ; all N values consumed? -> print the result
+    READ r2         ; r2 <- next value
+    ADD r1, r2      ; sum += value
+    SUB r0, 1       ; one fewer value remaining
+    JMP loop        ; repeat
+
+done:
+    PRINTLN r1      ; write the sum and '\n' to stdout, then exit 0

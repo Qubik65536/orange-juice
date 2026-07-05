@@ -1,0 +1,6 @@
+; Divides by zero: the interpreter reports a runtime error on stderr and
+; exits with the reserved code 101.
+
+MOV r0, 1           ; r0 <- 1, the dividend
+MOV r1, 0           ; r1 <- 0, the divisor
+DIV r0, r1          ; r0 / 0 -> runtime error

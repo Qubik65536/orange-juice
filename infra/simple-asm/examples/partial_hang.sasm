@@ -1,0 +1,5 @@
+; Writes "a" (no newline, flushed immediately) to stdout, then sleeps for
+; 10 seconds.
+
+PRINT "a"           ; write "a" without a newline; flushed immediately
+SLEEP 10000         ; idle for 10 000 ms

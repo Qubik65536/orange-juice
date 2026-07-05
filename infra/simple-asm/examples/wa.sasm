@@ -1,0 +1,3 @@
+; Ignores stdin and prints the fixed string "wrong", then exits 0.
+
+PRINTLN "wrong"
